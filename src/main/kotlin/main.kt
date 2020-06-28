@@ -11,11 +11,6 @@ fun main() {
 	val server = api.servers.find { it.id == 697398509682425897 }!!
 	val bot = VRBot(server)
 
-//	val bots = mutableListOf<VRBot>()
-//	api.servers.forEach {
-//		bots.add(VRBot(it))
-//	}
-
 	println("ready")
 
 	loop@ while (true) {
@@ -26,10 +21,4 @@ fun main() {
 			}
 		}
 	}
-
 }
-
-//TODO: move these somewhere else
-fun <T> Optional<T>.toNullable() = orElse(null)
-
-val relicIDregex = Regex("[A-Z][0-9]+")
