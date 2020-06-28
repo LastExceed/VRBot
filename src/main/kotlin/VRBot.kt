@@ -88,7 +88,7 @@ class VRBot(val server: Server) {
 			}
 	}
 
-	fun tryCloseSquad(message: Message): Boolean { //TODO: using the message to identify the squad feels wrong
+	fun tryCloseSquad(message: Message): Boolean {
 		message.delete()
 		squads.remove(message)?.role?.delete() ?: return false
 		return true

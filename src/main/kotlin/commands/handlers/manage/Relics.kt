@@ -26,7 +26,7 @@ class Relics(processor: CommandProcessor) : CommandHandler(processor) {
 		val eraInput = paramQueue.poll() ?: return CommandResult.error("Era not specified")
 		val era = Era.find(eraInput) ?: return CommandResult.error("unknown era `$eraInput`")
 
-		val relicIDs = paramQueue.map { it.toUpperCase() }//TODO: remove from queue
+		val relicIDs = paramQueue.map { it.toUpperCase() }
 		paramQueue.clear()
 
 		relicIDs.forEach {

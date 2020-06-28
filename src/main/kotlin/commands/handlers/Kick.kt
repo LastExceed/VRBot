@@ -12,11 +12,11 @@ class Kick(processor: CommandProcessor) : CommandHandler(processor) {
 		val id = idInput
 			.removePrefix("<@!")
 			.removeSuffix(">")
-			.toLongOrNull() ?: return CommandResult.error("invalid user `$idInput`") //TODO: possible @everyone bypass ?
+			.toLongOrNull() ?: return CommandResult.error("invalid user `$idInput`")
 		val target = processor.bot.server.getMemberById(id).toNullable() ?: return CommandResult.error("user `$id` not found")
 		val ownedSquads = processor.bot.squads.filter { it.value.host == event.messageAuthor }
 		if (ownedSquads.isEmpty()) return CommandResult.error("you're not hosting anything")
-		val sharedSquads = ownedSquads.filter { it.value.guests.contains(target) } //TODO: possibly always fails because multiple userObjects instantiated for the same user
+		val sharedSquads = ownedSquads.filter { it.value.guests.contains(target) }
 		if (sharedSquads.isEmpty()) return CommandResult.error("that user hasn't joined any of your squads")
 
 		return CommandResult.ok {
