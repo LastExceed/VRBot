@@ -61,11 +61,10 @@ class Host(processor: CommandProcessor) : CommandHandler(processor) {
 				.whenComplete { role, ex ->
 					val toPing = relics.flatMap { it.getAllUsers().toList() }
 						.toSet() //removes duplicates
-						.map { id -> processor.bot.server.getMemberById(id).toNullable() }
-						.filterNotNull()
+						.mapNotNull { id -> processor.bot.server.getMemberById(id).toNullable() }
 						.filter { user ->
 							setOf(DiscordClient.DESKTOP, DiscordClient.WEB)
-								.map { client -> user.getStatusOnClient(client) }
+								.map { user.getStatusOnClient(it) }
 								.contains(UserStatus.ONLINE)
 						}
 						.forEach { it.addRole(role) }
