@@ -3,8 +3,9 @@ import java.io.File
 import java.util.*
 
 fun main() {
-	//TODO: ensure file exists
-	val token = File("bot_secret").readText()
+	val tokenFile = File("bot_secret")
+	if (!tokenFile.exists()) error("bot_secret not found")
+	val token = tokenFile.readText()
 	val api = DiscordApiBuilder().setToken(token).login().join()
 
 	val server = api.servers.find { it.id == 697398509682425897 }!!
