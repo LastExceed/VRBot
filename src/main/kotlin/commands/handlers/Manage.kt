@@ -13,12 +13,7 @@ class Manage(processor: CommandProcessor) : CommandHandler(
 		"reset" to Reset(processor),
 		"set-channel" to SetChannel(processor),
 		"shutdown" to ShutDown(processor)
-	)
-) {
-	//TODO: implement `requiresElevation` in base class instead
-	override fun parse(parameters: List<String>, event: MessageCreateEvent): CommandResult {
-		if (!event.messageAuthor.isBotOwner && !event.messageAuthor.isServerAdmin) return CommandResult.error("only the bot owner and server admins can use this")
-		return super.parse(parameters, event)
-	}
-}
+	),
+	requiresElevation = true
+)
 
