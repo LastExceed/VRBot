@@ -10,9 +10,7 @@ import relicIDregex
 import java.util.*
 
 class Relics(processor: CommandProcessor) : CommandHandler(processor) {
-	override fun parseParameterless(event: MessageCreateEvent): CommandResult {
-		TODO("not implemented")
-	}
+	override fun parseParameterless(event: MessageCreateEvent) = CommandResult.ok { "WIP" }
 
 	//TODO: prevent duplication
 	override fun parseWithParameters(parameters: List<String>, event: MessageCreateEvent): CommandResult {
