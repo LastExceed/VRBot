@@ -31,15 +31,10 @@ data class Squad(
 		> $comment
 		${host.mentionTag} (host)
 		""".trimIndent()
-		repeat(anons) {
-			text += "\n$anonName"
-		}
-		guests.forEach {
-			text += "\n" + it.mentionTag
-		}
-		repeat(maxMembers - members) {
-			text += "\n$openSlot"
-		}
+
+		repeat(anons) { text += "\n$anonName" }
+		guests.forEach { text += "\n" + it.mentionTag }
+		repeat(maxMembers - members) { text += "\n$openSlot" }
 
 		return text
 	}
