@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "1.3.71"
+	kotlin("jvm") version "1.4-M2"
 	application
 }
 
@@ -10,11 +10,12 @@ version = "0.1.0"
 
 repositories {
 	mavenCentral()
+	maven("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 dependencies {
 	implementation(kotlin("stdlib-jdk8"))
-	implementation("org.javacord", "javacord", "3.0.5")
+	implementation("org.javacord", "javacord", "3.0.6")
 }
 
 tasks.withType<KotlinCompile> {

@@ -7,6 +7,6 @@ enum class Refinement {
 	Radiant;
 
 	companion object {
-		fun get(input: String) = values().find { it.name.toLowerCase().startsWith(input) }
+		fun find(input: String) = values().find { it.name.toLowerCase().startsWith(input) }
 	}
 }

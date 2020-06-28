@@ -1,9 +1,9 @@
-import enums.Reaction
 import org.javacord.api.DiscordApiBuilder
 import java.io.File
 import java.util.*
 
 fun main() {
+	//TODO: ensure file exists
 	val token = File("bot_secret").readText()
 	val api = DiscordApiBuilder().setToken(token).login().join()
 
@@ -25,15 +25,10 @@ fun main() {
 			}
 		}
 	}
+
 }
 
 //TODO: move these somewhere else
 fun <T> Optional<T>.toNullable() = orElse(null)
 
 val relicIDregex = Regex("[A-Z][0-9]+")
-var commandPrefix = "::"
-
-data class Result(
-	val reaction: Reaction,
-	val response: String? = null
-)

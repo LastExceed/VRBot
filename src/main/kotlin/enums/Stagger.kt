@@ -7,7 +7,7 @@ enum class Stagger(private val shortName: String) {
 	`4by4`("4b4");
 
 	companion object {
-		fun get(input: String) = values().find {
+		fun find(input: String) = values().find {
 			it.name.startsWith(input) || it.shortName.startsWith(input)
 		}
 	}
