@@ -6,7 +6,7 @@ import org.javacord.api.event.message.*
 
 class CloseAll(processor: CommandProcessor) : CommandHandler(processor) {
 	override fun parseParameterless(event: MessageCreateEvent): CommandResult {
-		val ownedSquads = processor.bot.squads.filter { it.value.host.id == event.messageAuthor.id }
+		val ownedSquads = processor.bot.squads.filter { it.value.host == event.messageAuthor.asUser().get() }
 
 		return CommandResult.ok {
 			ownedSquads.forEach { processor.bot.tryCloseSquad(it.key) }

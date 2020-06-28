@@ -4,7 +4,7 @@ import org.javacord.api.entity.permission.Role
 import org.javacord.api.entity.user.User
 
 data class Squad(
-	val host: User, //TODO: ensure user object comparability (switch to id if not)
+	val host: User,
 	val role: Role,
 	val refinement: Refinement?,
 	val stagger: Stagger?,
