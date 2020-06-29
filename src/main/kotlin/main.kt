@@ -12,7 +12,7 @@ fun main() {
 	val api = DiscordApiBuilder().setToken(token).login().join()
 
 	val server = api.servers.find { it.id == 697398509682425897 }!!
-	val bot = VRBot(server)
+	val bot = VRBot(api, server)
 
 	println("ready")
 

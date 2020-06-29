@@ -1,11 +1,15 @@
 import commands.CommandProcessor
 import enums.Reaction
+import org.javacord.api.*
 import org.javacord.api.entity.message.Message
 import org.javacord.api.entity.server.Server
 import org.javacord.api.event.message.*
 import org.javacord.api.event.message.reaction.*
 
-class VRBot(val server: Server) {
+class VRBot(
+	val api: DiscordApi,
+	val server: Server
+) {
 	init {
 		server.addMessageCreateListener(::onMessageCreate)
 		server.addMessageDeleteListener(::onMessageDelete)

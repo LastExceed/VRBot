@@ -8,9 +8,8 @@ import org.javacord.api.event.message.*
 class ShutDown(processor: CommandProcessor) : CommandHandler(processor) {
 	override fun parseParameterless(event: MessageCreateEvent): CommandResult {
 		return CommandResult.ok {
-			//api.disconnect()
-			//error("emergency shutdown")
-			"WIP"
+			processor.bot.api.disconnect()
+			null
 		}
 	}
 }
