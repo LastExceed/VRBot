@@ -16,7 +16,7 @@ fun main() {
 
 	println("ready")
 
-	loop@ while (true) {
+	while (true) {
 		when (readLine()) {
 			"exit" -> {
 				api.disconnect()
