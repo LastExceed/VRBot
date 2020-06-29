@@ -15,6 +15,7 @@ object Database {
 		}
 
 		fun addRelic(id: String) = File("$basePath$era/$id").createNewFile()
+		fun getAllRelics() = File("$basePath$era").listFiles()!!.map { DatabaseRelic(it) }
 
 		class DatabaseRelic internal constructor(val file: File) {
 			fun getAllUsers(): LongArray {

@@ -9,10 +9,16 @@ import org.javacord.api.event.message.*
 import relicIDregex
 import java.util.*
 
+//TODO: prevent duplication
 class Relics(processor: CommandProcessor) : CommandHandler(processor) {
-	override fun parseParameterless(event: MessageCreateEvent) = CommandResult.ok { "WIP" }
+	override fun parseParameterless(event: MessageCreateEvent) = CommandResult.ok {
+		Era.values().joinToString("\n") { era ->
+			val ids = Database[era].getAllRelics()
+				.joinToString { it.file.name }
+			"__**$era:**__ $ids"
+		}
+	}
 
-	//TODO: prevent duplication
 	override fun parseWithParameters(parameters: List<String>, event: MessageCreateEvent): CommandResult {
 		val paramQueue = LinkedList(parameters)
 
