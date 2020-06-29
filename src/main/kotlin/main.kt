@@ -4,7 +4,10 @@ import java.util.*
 
 fun main() {
 	val tokenFile = File("bot_secret")
-	if (!tokenFile.exists()) error("bot_secret not found")
+	if (!tokenFile.exists()) {
+		println("bot_secret not found")
+		return
+	}
 	val token = tokenFile.readText()
 	val api = DiscordApiBuilder().setToken(token).login().join()
 
