@@ -7,12 +7,15 @@ import org.javacord.api.event.message.*
 import relicIDregex
 import java.util.*
 
-//TODO: prevent duplication
-class Inventory(processor: CommandProcessor) : CommandHandler(processor) {
+class Inventory(processor: CommandProcessor, private val isUserInventory: Boolean = true) : CommandHandler(processor) {
 	override fun parseParameterless(event: MessageCreateEvent) = CommandResult.ok {
 		Era.values().joinToString("\n") { era ->
 			val ids = Database[era].getAllRelics()
-				.filter { it.getAllUsers().contains(event.messageAuthor.id) }
+				.run {
+					if (isUserInventory) {
+						filter { it.getAllUsers().contains(event.messageAuthor.id) }
+					} else this
+				}
 				.joinToString { it.file.name }
 			"__**$era:**__ $ids"
 		}
@@ -36,14 +39,20 @@ class Inventory(processor: CommandProcessor) : CommandHandler(processor) {
 
 		relicIDs.forEach {
 			if (!it.matches(relicIDregex)) return CommandResult.error("the relic ID `$it` doesn't match regex `${relicIDregex.pattern}` (aka you probably have a typo")
-			if (Database[era][it] == null) return CommandResult.error("relic `$eraInput $it` not found")
+			if (isUserInventory && Database[era][it] == null) return CommandResult.error("relic `$eraInput $it` not found")
 		}
 
 		return CommandResult.ok {
+			val databaseEra = Database[era]
 			val skips = relicIDs.map {
-				val databaseRelic = Database[era][it]!!
-				if (add) databaseRelic.addUser(event.messageAuthor.id)
-				else databaseRelic.removeUser(event.messageAuthor.id)
+				if (isUserInventory) {
+					val databaseRelic = databaseEra[it]!!
+					if (add) databaseRelic.addUser(event.messageAuthor.id)
+					else databaseRelic.removeUser(event.messageAuthor.id)
+				} else {
+					if (add) databaseEra.addRelic(it)
+					else databaseEra[it]?.delete() ?: false
+				}
 			}.count { !it }
 			if (skips > 0) "skipped $skips relics because they were already present/absent" else null
 		}

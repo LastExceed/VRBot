@@ -9,7 +9,7 @@ class Manage(processor: CommandProcessor) : CommandHandler(
 	processor,
 	mapOf(
 		"prefix" to Prefix(processor),
-		"relics" to Relics(processor),
+		"relics" to Inventory(processor, false),
 		"reset" to Reset(processor),
 		"set-channel" to SetChannel(processor),
 		"shutdown" to ShutDown(processor)
