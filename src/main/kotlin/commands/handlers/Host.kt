@@ -28,9 +28,9 @@ class Host(processor: CommandProcessor) : CommandHandler(processor) {
 		var refinement: Refinement? = null
 		var stagger: Stagger? = null
 		var anons: Int? = null
-		val comment = mutableListOf<String>()
+		val commentFragments = mutableListOf<String>()
 
-		while (!paramQueue.isEmpty()) { //TODO: seems hacky
+		while (!paramQueue.isEmpty()) { //hacky but necessary
 			val parameter = paramQueue.remove()
 			if (refinement == null) {
 				refinement = Refinement.find(parameter.toLowerCase())
@@ -50,8 +50,10 @@ class Host(processor: CommandProcessor) : CommandHandler(processor) {
 					continue
 				}
 			}
-			comment.add(parameter)
+			commentFragments.add(parameter)
 		}
+
+		val comment = commentFragments.joinToString(" ")
 
 		return CommandResult.ok {
 			processor.bot.server.createRoleBuilder()
@@ -59,27 +61,19 @@ class Host(processor: CommandProcessor) : CommandHandler(processor) {
 				.setMentionable(true)
 				.create()
 				.whenComplete { role, ex ->
-					val toPing = relics.flatMap { it.getAllUsers().toList() }
-						.toSet() //removes duplicates
+					relics.flatMap { it.getAllUsers().toList() }
+						.distinct()
 						.mapNotNull { id -> processor.bot.server.getMemberById(id).toNullable() }
 						.filter { user ->
 							setOf(DiscordClient.DESKTOP, DiscordClient.WEB)
-								.map { user.getStatusOnClient(it) }
-								.contains(UserStatus.ONLINE)
+								.any { user.getStatusOnClient(it) == UserStatus.ONLINE }
 						}
 						.forEach { it.addRole(role) }
 
 					Thread.sleep(500) //@mentions don't work if done too quickly after role creation/assignment. GG discord
 
 					processor.bot.openSquad(
-						Squad(
-							event.messageAuthor.asUser().get(),
-							role,
-							refinement,
-							stagger,
-							anons ?: 0,
-							comment.joinToString(" ")
-						)
+						Squad(event.messageAuthor.asUser().get(), role, refinement, stagger, anons ?: 0, comment)
 					)
 				}
 

@@ -11,19 +11,19 @@ abstract class CommandHandler(
 ) {
 	open fun parse(parameters: List<String>, event: MessageCreateEvent): CommandResult =
 		when {
-			requiresElevation && !event.messageAuthor.isBotOwner && !event.messageAuthor.isServerAdmin ->
+			requiresElevation && !event.messageAuthor.isBotOwner && !event.messageAuthor.isServerAdmin -> {
 				CommandResult.error("only the bot owner and server admins can use this")
-
-			parameters.isEmpty() ->
+			}
+			parameters.isEmpty() -> {
 				parseParameterless(event)
-
-			else ->
+			}
+			else -> {
 				subCommands[parameters.first()]?.parse(parameters.drop(1), event)
 					?: parseWithParameters(parameters, event)
+			}
 		}
 
 	internal open fun parseParameterless(event: MessageCreateEvent) = CommandResult.error("too few arguments")
 	internal open fun parseWithParameters(parameters: List<String>, event: MessageCreateEvent) =
 		CommandResult.error("superflous argument `${parameters.first()}`")
-	//TODO: ensure all parameters were parsed
 }

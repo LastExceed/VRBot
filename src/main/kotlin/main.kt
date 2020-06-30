@@ -1,6 +1,5 @@
 import org.javacord.api.DiscordApiBuilder
 import java.io.File
-import java.util.*
 
 fun main() {
 	val tokenFile = File("bot_secret")

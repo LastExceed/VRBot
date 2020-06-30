@@ -21,9 +21,6 @@ object Database {
 			fun getAllUsers(): LongArray {
 				val fileSize = file.length().toInt()
 				val reader = DataInputStream(file.inputStream())
-				if (fileSize % 8 != 0) {
-					//TODO: database corruption
-				}
 				return LongArray(fileSize / 8) { reader.readLong() }
 			}
 
